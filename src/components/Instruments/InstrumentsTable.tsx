@@ -2,8 +2,9 @@
 import React, { FC } from "react";
 
 // MUI Imports
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography, Select, MenuItem } from "@mui/material";
 import InstrumentsTile from "./InstrumentsTile";
+import { useNavigate } from "react-router-dom";
 
 // Functional Imports
 
@@ -13,9 +14,18 @@ interface InstrumentsTableProps {
   data?: any;
   searchText?: any;
   setSearchText?: any;
+  loading?: any;
+  selectOption?: any;
+  setSelectOption?: any;
 }
 
 const InstrumentsTable: FC<InstrumentsTableProps> = (props) => {
+  const navigate = useNavigate();
+
+  const handleClick = (item: any) => {
+    navigate("/quotes/" + item.symbol);
+  };
+
   return (
     <Box
       sx={{
@@ -26,31 +36,66 @@ const InstrumentsTable: FC<InstrumentsTableProps> = (props) => {
         mt: 10,
       }}
     >
-      <TextField
-        value={props.searchText}
-        placeholder="Search Symbols"
-        onChange={(e: any) => props.setSearchText(e.target.value.toUpperCase())}
-        variant="outlined"
+      <Box
         sx={{
           width: "740px",
-          mt: -8,
-          position: "fixed",
+          display: "flex",
+          flexDirection: "row",
           backgroundColor: "white",
-          // mt: -10
+          position: "fixed",
+          mt: -8,
         }}
-      />
-      {props.data.map((item: any, index: number) => (
-        <InstrumentsTile data={item} />
-      ))}
+      >
+        <Select
+          sx={{
+            width: "200px",
+            // border: '2px solid'
+          }}
+          value={props.selectOption}
+          label="Age"
+          onChange={(e: any) => props.setSelectOption(e.target.value)}
+        >
+          <MenuItem value={"Symbol"}>Symbol</MenuItem>
+          <MenuItem value={"Name"}>Name</MenuItem>
+          <MenuItem value={"Sector"}>Sector</MenuItem>
+        </Select>
+        <TextField
+          value={props.searchText}
+          placeholder={"Search " + props.selectOption + "s"}
+          onChange={(e: any) => props.setSearchText(e.target.value)}
+          variant="outlined"
+          sx={{
+            width: "530px",
+            ml: 1,
+            backgroundColor: "white",
+          }}
+        />
+      </Box>
 
-      {props.data.length === 0 && (
+      {!props.loading &&
+        props.data.map((item: any, index: number) => (
+          <InstrumentsTile key={index} onClick={() => handleClick(item)} data={item} />
+        ))}
+
+      {!props.loading && props.data.length === 0 && (
         <Typography
           style={{
             fontSize: 32,
-            marginTop: 12
+            marginTop: 12,
           }}
         >
           No Data
+        </Typography>
+      )}
+
+      {props.loading && (
+        <Typography
+          style={{
+            fontSize: 32,
+            marginTop: 12,
+          }}
+        >
+          Loading...
         </Typography>
       )}
     </Box>

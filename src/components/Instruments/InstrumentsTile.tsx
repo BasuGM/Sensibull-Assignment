@@ -11,11 +11,13 @@ import { Typography, Paper } from "@mui/material";
 interface InstrumentsTileProps {
   data?: any;
   sx?: any;
+  onClick?: any
 }
 
 const InstrumentsTile: FC<InstrumentsTileProps> = (props) => {
   return (
     <Paper
+      onClick={props.onClick}
       sx={{
         border: "2px solid #666",
         height: "50px",
@@ -24,13 +26,12 @@ const InstrumentsTile: FC<InstrumentsTileProps> = (props) => {
         m: 1,
         display: "flex",
         alignItems: "center",
-        // justifyContent: "space-between",
         px: 2,
         cursor: 'pointer',
-        ...props.sx,
         ':hover': {
-          backgroundColor: '#DDD'
-        }
+          backgroundColor: '#DDD',
+        },
+        ...props.sx,
       }}
     >
       <Typography

@@ -2,9 +2,9 @@
 import React, { FC } from "react";
 
 // MUI Imports
-import { Box, Typography } from "@mui/material";
 import RoutePath from "./routes/RoutePath";
-import Instruments from "./components/Instruments";
+// import Instruments from "./components/Instruments";
+// import Quotes from "./components/Quotes";
 
 // Functional Imports
 
@@ -14,7 +14,9 @@ interface AppProps {}
 
 const App: FC<AppProps> = (props) => {
   return (
-    <Instruments />
+    // <Instruments />
+    <RoutePath />
+    // <Quotes />
   );
 };
 
